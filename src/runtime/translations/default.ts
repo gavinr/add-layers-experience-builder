@@ -1,7 +1,7 @@
 export default {
   _widgetLabel: "Add Layers",
-  widgetProperties: "Widget Properties",
-  widgetFunctions: "Widget Functions",
-  widgetName: "widget name:",
-  widgetProps: "widget props:"
+  addLayer: "Add Layer",
+  featureServiceUrl: "Feature Service URL",
+  instructions:
+    "Copy/paste a FeatureService Layer URL here to add it to the map."
 };

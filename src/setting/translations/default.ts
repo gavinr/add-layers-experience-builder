@@ -1,3 +1,4 @@
 export default {
-  exampleConfigProperty: "Example Config Property"
+  settings: "Settings",
+  zoomToLayer: "Zoom to layer"
 };
