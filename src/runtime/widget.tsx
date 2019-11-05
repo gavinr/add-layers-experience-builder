@@ -48,50 +48,58 @@ export default class Widget extends BaseWidget<
 
   formSubmit = evt => {
     evt.preventDefault();
-    if (this.state.featureServiceUrlInput !== "") {
-      // Lazy-loading (Only load if needed) the ArcGIS API for JavaScript modules
-      // that we need - only once the "Add Layer" button is pressed.
-      loadArcGISJSAPIModules([
-        "esri/layers/FeatureLayer",
-        "esri/tasks/support/Query",
-        "esri/geometry/SpatialReference"
-      ]).then(modules => {
-        [this.FeatureLayer, this.Query, this.SpatialReference] = modules;
 
-        // First create the Feature Layer from the URL that is in the box.
-        const layer = new this.FeatureLayer({
-          url: this.state.featureServiceUrlInput
-        });
-
-        // Add the layer to the map (accessed through the Experience Builder Data Source)
-        this.state.ds.view.map.add(layer);
-
-        // After the layer is created, zoom to the layer's extent, if the setting is set for that.
-        layer.on("layerview-create", event => {
-          if (
-            this.props.config.hasOwnProperty("zoomToLayer") &&
-            this.props.config.zoomToLayer === true
-          ) {
-            const query = new this.Query();
-            query.where = "1=1";
-            query.outSpatialReference = new this.SpatialReference({
-              wkid: 102100
-            });
-            layer.queryExtent(query).then(results => {
-              this.state.ds.view.extent = results.extent;
-            });
-          }
-
-          // Process of adding the layer is complete - remove the layer URL from the box so we can add another
-          this.setState({
-            featureServiceUrlInput: ""
-          });
-        });
-      });
-    } else {
+    // Error cases
+    if (!this.state.ds) {
+      // Data Source was not configured - we cannot do anything.
+      console.error("Please configure a Data Source with the widget.");
+      return;
+    }
+    if (this.state.featureServiceUrlInput == "") {
       // Nothing was typed into the box!
       alert("Please copy/paste in a FeatureService URL");
+      return;
     }
+
+    // Lazy-loading (Only load if needed) the ArcGIS API for JavaScript modules
+    // that we need - only once the "Add Layer" button is pressed.
+    loadArcGISJSAPIModules([
+      "esri/layers/FeatureLayer",
+      "esri/tasks/support/Query",
+      "esri/geometry/SpatialReference"
+    ]).then(modules => {
+      [this.FeatureLayer, this.Query, this.SpatialReference] = modules;
+
+      // First create the Feature Layer from the URL that is in the box.
+      const layer = new this.FeatureLayer({
+        url: this.state.featureServiceUrlInput
+      });
+
+      // Add the layer to the map (accessed through the Experience Builder Data Source)
+      this.state.ds.view.map.add(layer);
+
+      // After the layer is created, zoom to the layer's extent, if the setting is set for that.
+      layer.on("layerview-create", event => {
+        if (
+          this.props.config.hasOwnProperty("zoomToLayer") &&
+          this.props.config.zoomToLayer === true
+        ) {
+          const query = new this.Query();
+          query.where = "1=1";
+          query.outSpatialReference = new this.SpatialReference({
+            wkid: 102100
+          });
+          layer.queryExtent(query).then(results => {
+            this.state.ds.view.extent = results.extent;
+          });
+        }
+
+        // Process of adding the layer is complete - remove the layer URL from the box so we can add another
+        this.setState({
+          featureServiceUrlInput: ""
+        });
+      });
+    });
   };
 
   render() {
@@ -109,14 +117,18 @@ export default class Widget extends BaseWidget<
     `;
     return (
       <div className="widget-addLayers jimu-widget" css={style}>
-        <DataSourceComponent
-          onDataSourceCreated={(ds: MapViewDataSource) => {
-            this.setState({
-              ds: ds
-            });
-          }}
-          useDataSource={this.props.useDataSources[0]}
-        ></DataSourceComponent>
+        {this.props.hasOwnProperty("useDataSources") &&
+          this.props.useDataSources &&
+          this.props.useDataSources.length === 1 && (
+            <DataSourceComponent
+              onDataSourceCreated={(ds: MapViewDataSource) => {
+                this.setState({
+                  ds: ds
+                });
+              }}
+              useDataSource={this.props.useDataSources[0]}
+            ></DataSourceComponent>
+          )}
 
         <p>{defaultMessages.instructions}</p>
 
