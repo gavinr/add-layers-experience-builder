@@ -28,15 +28,10 @@ export default class Widget extends BaseWidget<
   Query: typeof __esri.Query;
   SpatialReference: typeof __esri.SpatialReference;
 
-  constructor(props) {
-    super(props);
-
-    // Default/initial values of the state.
-    this.state = {
-      featureServiceUrlInput: "",
-      ds: null
-    };
-  }
+  state = {
+    featureServiceUrlInput: "",
+    ds: null
+  };
 
   // Every time the input box value changes, this function gets called.
   // We set our component's state so we can use the value in the formSubmit function.
