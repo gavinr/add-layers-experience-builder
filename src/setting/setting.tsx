@@ -1,12 +1,8 @@
 /** @jsx jsx */
 import { React, FormattedMessage, css, jsx } from "jimu-core";
-import {
-  BaseWidgetSetting,
-  AllWidgetSettingProps,
-  SettingSection,
-  SettingRow
-} from "jimu-for-builder";
+import { BaseWidgetSetting, AllWidgetSettingProps } from "jimu-for-builder";
 import { Switch } from "jimu-ui";
+import { SettingSection, SettingRow } from "jimu-ui/setting-components";
 import { IMConfig } from "../config";
 import defaultMessages from "./translations/default";
 
@@ -16,7 +12,7 @@ export default class Setting extends BaseWidgetSetting<
 > {
   onZoomToLayerPropertyChange = (evt: React.FormEvent<HTMLInputElement>) => {
     this.props.onSettingChange({
-      widgetId: this.props.id,
+      id: this.props.id,
       config: this.props.config.set("zoomToLayer", evt.currentTarget.checked)
     });
   };
