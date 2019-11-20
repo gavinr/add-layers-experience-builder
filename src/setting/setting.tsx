@@ -2,7 +2,11 @@
 import { React, FormattedMessage, css, jsx } from "jimu-core";
 import { BaseWidgetSetting, AllWidgetSettingProps } from "jimu-for-builder";
 import { Switch } from "jimu-ui";
-import { SettingSection, SettingRow } from "jimu-ui/setting-components";
+import {
+  JimuMapViewSelector,
+  SettingSection,
+  SettingRow
+} from "jimu-ui/setting-components";
 import { IMConfig } from "../config";
 import defaultMessages from "./translations/default";
 
@@ -14,6 +18,14 @@ export default class Setting extends BaseWidgetSetting<
     this.props.onSettingChange({
       id: this.props.id,
       config: this.props.config.set("zoomToLayer", evt.currentTarget.checked)
+    });
+  };
+
+  onMapWidgetSelected = (useMapWidgetIds: string[]) => {
+    console.log("useMapWidgetIds", useMapWidgetIds);
+    this.props.onSettingChange({
+      id: this.props.id,
+      useMapWidgetIds: useMapWidgetIds
     });
   };
 
@@ -30,6 +42,26 @@ export default class Setting extends BaseWidgetSetting<
     return (
       <div css={style}>
         <div className="widget-setting-addLayers">
+          <SettingSection
+            className="map-selector-section"
+            title={this.props.intl.formatMessage({
+              id: "mapWidgetLabel",
+              defaultMessage: defaultMessages.selectMapWidget
+            })}
+          >
+            {/*
+            <SettingRow>
+              <div className="map-selector-descript">{this.props.intl.formatMessage({id: 'sourceDescript', defaultMessage: 'set an interactive map **'})}</div>
+            </SettingRow>
+            */}
+            <SettingRow>
+              <JimuMapViewSelector
+                onSelect={this.onMapWidgetSelected}
+                useMapWidgetIds={this.props.useMapWidgetIds}
+              />
+            </SettingRow>
+          </SettingSection>
+
           <SettingSection
             title={this.props.intl.formatMessage({
               id: "settingsLabel",

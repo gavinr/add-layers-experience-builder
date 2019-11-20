@@ -4,10 +4,16 @@ import {
   BaseWidget,
   css,
   jsx,
-  DataSourceComponent,
-  loadArcGISJSAPIModules
+  DataSourceComponent
 } from "jimu-core";
-import { MapViewDataSource } from "jimu-arcgis/lib/data-source";
+import {
+  MapDataSource,
+  DataSourceTypes,
+  loadArcGISJSAPIModules,
+  JimuMapViewComponent,
+  JimuMapView
+} from "jimu-arcgis";
+
 import { IMConfig } from "../config";
 
 // import { TabContent, TabPane, Nav, NavItem, NavLink, Button} from 'jimu-ui';
@@ -15,7 +21,7 @@ import defaultMessages from "./translations/default";
 
 interface IState {
   featureServiceUrlInput: string;
-  ds: MapViewDataSource;
+  jimuMapView: JimuMapView;
 }
 
 export default class Widget extends BaseWidget<
@@ -30,7 +36,7 @@ export default class Widget extends BaseWidget<
 
   state = {
     featureServiceUrlInput: "",
-    ds: null
+    jimuMapView: null
   };
 
   // Every time the input box value changes, this function gets called.
@@ -45,7 +51,7 @@ export default class Widget extends BaseWidget<
     evt.preventDefault();
 
     // Error cases
-    if (!this.state.ds) {
+    if (!this.state.jimuMapView) {
       // Data Source was not configured - we cannot do anything.
       console.error("Please configure a Data Source with the widget.");
       return;
@@ -71,7 +77,7 @@ export default class Widget extends BaseWidget<
       });
 
       // Add the layer to the map (accessed through the Experience Builder Data Source)
-      this.state.ds.view.map.add(layer);
+      this.state.jimuMapView.view.map.add(layer);
 
       // After the layer is created, zoom to the layer's extent, if the setting is set for that.
       layer.on("layerview-create", event => {
@@ -85,7 +91,7 @@ export default class Widget extends BaseWidget<
             wkid: 102100
           });
           layer.queryExtent(query).then(results => {
-            this.state.ds.view.extent = results.extent;
+            this.state.jimuMapView.view.extent = results.extent;
           });
         }
 
@@ -112,17 +118,17 @@ export default class Widget extends BaseWidget<
     `;
     return (
       <div className="widget-addLayers jimu-widget" css={style}>
-        {this.props.hasOwnProperty("useDataSources") &&
-          this.props.useDataSources &&
-          this.props.useDataSources.length === 1 && (
-            <DataSourceComponent
-              onDataSourceCreated={(ds: MapViewDataSource) => {
+        {this.props.hasOwnProperty("useMapWidgetIds") &&
+          this.props.useMapWidgetIds &&
+          this.props.useMapWidgetIds.length === 1 && (
+            <JimuMapViewComponent
+              useMapWidgetIds={this.props.useMapWidgetIds}
+              onActiveViewChange={(jmv: JimuMapView) => {
                 this.setState({
-                  ds: ds
+                  jimuMapView: jmv
                 });
               }}
-              useDataSource={this.props.useDataSources[0]}
-            ></DataSourceComponent>
+            />
           )}
 
         <p>{defaultMessages.instructions}</p>
