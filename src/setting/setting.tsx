@@ -22,7 +22,6 @@ export default class Setting extends BaseWidgetSetting<
   };
 
   onMapWidgetSelected = (useMapWidgetIds: string[]) => {
-    console.log("useMapWidgetIds", useMapWidgetIds);
     this.props.onSettingChange({
       id: this.props.id,
       useMapWidgetIds: useMapWidgetIds
