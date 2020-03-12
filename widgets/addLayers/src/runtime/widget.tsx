@@ -117,7 +117,7 @@ export default class Widget extends BaseWidget<
       }
     `;
     return (
-      <div className="widget-addLayers jimu-widget" css={style}>
+      <div className="widget-addLayers jimu-widget p-2" css={style}>
         {this.props.hasOwnProperty("useMapWidgetIds") &&
           this.props.useMapWidgetIds &&
           this.props.useMapWidgetIds.length === 1 && (
