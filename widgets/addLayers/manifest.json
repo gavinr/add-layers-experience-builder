@@ -1,18 +1,18 @@
 {
   "name": "addLayers",
+  "label": "Add Layers",
   "type": "widget",
   "version": "1.0.0",
-  "exbVersion": "1.0.0-beta.2",
+  "exbVersion": "1.0.0",
   "author": "Gavin Rehkemper, Esri",
   "description": "Allows a user to add a layer to a map",
-  "copyright": "",
   "license": "http://www.apache.org/licenses/LICENSE-2.0",
   "properties": {},
-  "supportedLocales": [
+  "translatedLocales": [
     "en"
   ],
   "defaultSize": {
-    "width": 800,
-    "height": 500
+    "width": 400,
+    "height": 200
   }
 }
