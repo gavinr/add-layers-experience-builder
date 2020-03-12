@@ -1,7 +1,7 @@
 # "Add Layers" - Experience Builder
 Example Experience Builder widget showing how to add a Feature Layer to a map.
 
-![Screenshot](https://github.com/gavinr/add-layers-experience-builder/raw/master/screenshot.png)
+![Screenshot](https://github.com/gavinr/add-layers-experience-builder/raw/master/add-layers.gif)
 
 ## Quick Start - Download
 
