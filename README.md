@@ -28,4 +28,4 @@ Example Experience Builder widget showing how to add a Feature Layer to a map.
 
 ## More
 
-View my other Experience Builder projects [here](https://github.com/gavinr?tab=repositories&q=experience-builder)
+View my other Experience Builder projects [here](https://github.com/gavinr?tab=repositories&q=experience-builder).
