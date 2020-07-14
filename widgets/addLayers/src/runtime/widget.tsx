@@ -3,12 +3,9 @@ import {
   AllWidgetProps,
   BaseWidget,
   css,
-  jsx,
-  DataSourceComponent
+  jsx
 } from "jimu-core";
 import {
-  MapDataSource,
-  DataSourceTypes,
   loadArcGISJSAPIModules,
   JimuMapViewComponent,
   JimuMapView
@@ -16,7 +13,6 @@ import {
 
 import { IMConfig } from "../config";
 
-// import { TabContent, TabPane, Nav, NavItem, NavLink, Button} from 'jimu-ui';
 import defaultMessages from "./translations/default";
 
 interface IState {
