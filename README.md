@@ -1,3 +1,5 @@
+# This example widget moved to the official samples: https://developers.arcgis.com/experience-builder/sample-code/widgets/add-layers/
+
 # "Add Layers" - Experience Builder
 Example Experience Builder widget showing how to add a Feature Layer to a map.
 
